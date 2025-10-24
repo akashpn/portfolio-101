@@ -99,13 +99,13 @@ const Skills = forwardRef<HTMLElement, SkillsProps>(({ activeTheme, mousePositio
         currentNodes.map(node => {
           let { x, y, vx, vy } = node;
 
-          // Mouse repulsion
+          // Mouse attraction
           const distToMouse = Math.hypot(x - mouseX, y - mouseY);
-          if (distToMouse < 120) {
-            const angle = Math.atan2(y - mouseY, x - mouseX);
-            const repulsionForce = 0.2;
-            vx += Math.cos(angle) * repulsionForce;
-            vy += Math.sin(angle) * repulsionForce;
+          if (distToMouse < 150) {
+            // A gentle spring-like attraction force towards the cursor
+            const stiffness = 0.005;
+            vx += (mouseX - x) * stiffness;
+            vy += (mouseY - y) * stiffness;
           }
 
           // Spring force to original position
